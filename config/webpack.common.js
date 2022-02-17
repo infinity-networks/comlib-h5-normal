@@ -9,16 +9,21 @@ function getEntries() {
   }
 
   const entries = {
-    index: path.join(__dirname, `./src/index.tsx`),
+    index: path.join(__dirname, `../src/index.tsx`),
   };
-  const dir = path.join(__dirname, "./src/components");
+
+  const dir = path.join(__dirname, "../src/components");
   const files = fs.readdirSync(dir);
   files.forEach((file) => {
     const absolutePath = path.join(dir, file);
     if (isDir(absolutePath)) {
-      entries[file] = path.join(
+      entries[`runtime_${file}`] = path.join(
         __dirname,
-        `./src/components/${file}/index.tsx`
+        `../src/components/${file}/runtime.tsx`
+      );
+      entries[`editor_${file}`] = path.join(
+        __dirname,
+        `../src/components/${file}/editor.tsx`
       );
     }
   });
@@ -27,11 +32,25 @@ function getEntries() {
 
 const entries = getEntries();
 
+const mode = process.env.NODE_ENV ? process.env.NODE_ENV : "production";
+
+const outDir = mode === "production" ? "build" : "dist";
+
+console.log("mode", mode, outDir);
+
 module.exports = {
   entry: entries,
   output: {
-    filename: "[name].js",
-    path: path.resolve(__dirname, "./dist"),
+    filename: (chunkData) => {
+      if (chunkData.chunk.name === "index") {
+        return `../${outDir}/[name].js`;
+      } else {
+        const names = chunkData.chunk.name.split("_");
+        chunkData.chunk.name = names[1];
+        return `../${outDir}/${names[0]}/[name]/index.js`;
+      }
+    },
+    path: path.resolve(__dirname, `../${outDir}`),
     library: "ComlibH5Normal",
     libraryTarget: "umd",
   },
@@ -80,22 +99,11 @@ module.exports = {
   plugins: [
     new webpack.ProgressPlugin(),
     new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ["dist"],
+      cleanOnceBeforeBuildPatterns: [path.resolve(__dirname, `../${outDir}`)],
     }),
   ],
-  devServer: {
-    port: 8888,
-    static: {
-      directory: path.join(__dirname, "dist"),
-      watch: true,
-    },
-    allowedHosts: "all",
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-      "Access-Control-Allow-Headers":
-        "X-Requested-With, content-type, Authorization",
-    },
-    open: true,
+  externals: {
+    react: "React",
+    "react-dom": "ReactDOM",
   },
 };

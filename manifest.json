@@ -1,0 +1,11 @@
+{
+  "name": "ComlibH5Normal",
+  "namespace": "quark-org",
+  "uid": "41415520",
+  "version": "0.0.1",
+  "main": "./src/index.tsx",
+  "components": [
+    "./src/components/button/index.json",
+    "./src/components/container/index.json"
+  ]
+}

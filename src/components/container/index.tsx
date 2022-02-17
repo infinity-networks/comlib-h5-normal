@@ -1,7 +1,7 @@
-import React from "react";
+import editor from "./editor";
+import runtime from "./runtime";
 
-const Container = () => {
-  return <div></div>;
+export default {
+  editor,
+  runtime,
 };
-
-export default Container;

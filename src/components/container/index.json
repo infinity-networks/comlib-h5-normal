@@ -1,0 +1,20 @@
+{
+  "title": "容器",
+  "namespace": "quark.comlib-h5-normal",
+  "author": "",
+  "authorName": "",
+  "editor": "./editor.tsx",
+  "runtime": "./index.tsx",
+  "inputs": [
+    {
+      "id": "children",
+      "type": "String"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "onClick",
+      "type": "Function"
+    }
+  ]
+}

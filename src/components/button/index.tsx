@@ -1,8 +1,7 @@
-import React from "react";
-import "./index.less";
+import editor from "./editor";
+import runtime from "./runtime";
 
-const Button = ({ children }) => {
-  return <button className="button">11{children}</button>;
+export default {
+  editor,
+  runtime,
 };
-
-export default Button;
