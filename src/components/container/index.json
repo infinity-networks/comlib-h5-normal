@@ -1,6 +1,6 @@
 {
   "title": "容器",
-  "namespace": "quark.comlib-h5-normal",
+  "namespace": "quark-lowcode.comlib-h5-normal",
   "author": "",
   "authorName": "",
   "editor": "./editor.tsx",
@@ -8,13 +8,13 @@
   "inputs": [
     {
       "id": "children",
-      "type": "String"
+      "type": "any"
     }
   ],
   "outputs": [
     {
       "id": "onClick",
-      "type": "Function"
+      "type": "function"
     }
   ]
 }

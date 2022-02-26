@@ -1,6 +1,6 @@
 {
   "name": "ComlibH5Normal",
-  "namespace": "quark-org",
+  "namespace": "quark-lowcode",
   "uid": "41415520",
   "version": "0.0.1",
   "main": "./src/index.tsx",

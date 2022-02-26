@@ -3,6 +3,7 @@ const path = require("path");
 const { series, src, dest } = require("gulp");
 const del = require("del");
 const through2 = require("through2");
+const crypto = require("crypto");
 const COS = require("cos-nodejs-sdk-v5");
 
 const mode = process.env.NODE_ENV || "production";
@@ -13,6 +14,8 @@ const cos = new COS({
   SecretId: "AKIDnPktlMgjW1FCsHQItDG2WkhNmvoQlpc9",
   SecretKey: "HH0SdX9UYKq53kAJ2VhcGdjZ8QRBeqlP",
 });
+
+const hash = crypto.createHash("md5");
 
 function uploadToCos(fileName, fileContent) {
   cos.putObject(
@@ -42,20 +45,72 @@ function clean(cb) {
   cb();
 }
 
+function handleManifest() {
+  return through2(function (file, encoding, cb) {
+    if (file.isNull()) {
+      cb(null, file);
+    }
+
+    if (file.isBuffer()) {
+      console.log("buffer");
+    }
+
+    if (file.isStream()) {
+      console.log("stream");
+    }
+    const str = file.contents.toString();
+    const data = JSON.parse(str);
+    const comList = [];
+
+    data.components.forEach((filePath) => {
+      const splitedPath = filePath.split("/");
+
+      const comFile = fs.readFileSync(path.resolve(__dirname, filePath), {
+        encoding: "utf8",
+      });
+
+      const comData = JSON.parse(comFile);
+      const folderName = splitedPath[splitedPath.length - 2];
+
+      const readFolderFile = (folder) => {
+        return fs.readFileSync(
+          path.resolve(
+            __dirname,
+            `./${outDir}/${folder}/${folderName}/index.js`
+          ),
+          "utf-8"
+        );
+      };
+
+      comData["editor"] = readFolderFile("editor");
+
+      comData["runtime"] = readFolderFile("runtime");
+
+      comList.push(comData);
+    });
+
+    // data.components = [...comList];
+    // console.log(data.components);
+    // file.contents = new Buffer(JSON.stringify(data));
+    cb(null, file);
+  });
+}
+
 function merge(cb) {
   src(["manifest.json"])
     .pipe(
-      through2(function (file, encoding, cb) {
+      through2.obj(function (file, encoding, cb) {
         const str = file.contents.toString();
         const data = JSON.parse(str);
         const comList = [];
 
         data.components.forEach((filePath) => {
           const splitedPath = filePath.split("/");
-          console.log("filePath", path.resolve(__dirname, filePath));
+
           const comFile = fs.readFileSync(path.resolve(__dirname, filePath), {
             encoding: "utf8",
           });
+
           const comData = JSON.parse(comFile);
           const folderName = splitedPath[splitedPath.length - 2];
 
@@ -65,9 +120,7 @@ function merge(cb) {
                 __dirname,
                 `./${outDir}/${folder}/${folderName}/index.js`
               ),
-              {
-                encoding: "utf8",
-              }
+              "utf-8"
             );
           };
 
@@ -79,12 +132,11 @@ function merge(cb) {
         });
 
         data.components = [...comList];
-        file.contents = new Buffer(JSON.stringify(data));
-        this.push(file);
-        cb();
+        file.contents = Buffer.from(JSON.stringify(data));
+        cb(null, file);
       })
     )
-    .pipe(dest(outDir));
+    .pipe(dest(`${outDir}/`));
   cb();
 }
 
