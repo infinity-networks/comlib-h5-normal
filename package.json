@@ -5,10 +5,9 @@
   "main": "./dist/index.js",
   "scripts": {
     "start": "NODE_ENV=development concurrently \"http-server ./dist\" \"webpack --watch --config ./config/webpack.dev.js\"",
-    "build": "NODE_ENV=production webpack --config ./config/webpack.prod.js && gulp",
+    "build": "NODE_ENV=production webpack --config ./config/webpack.prod.js",
     "dev:server": "NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js",
-    "publish": "NODE_ENV=production npm run build && gulp",
-    "gulp": "gulp"
+    "publish": "NODE_ENV=production npm run build"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +27,7 @@
     "@babel/preset-typescript": "^7.16.7",
     "babel-loader": "^8.2.3",
     "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^10.2.4",
     "cos-nodejs-sdk-v5": "^2.11.6",
     "crypto": "^1.0.1",
     "css-loader": "^6.6.0",
