@@ -7,7 +7,8 @@
     "start": "NODE_ENV=development concurrently \"http-server ./dist\" \"webpack --watch --config ./config/webpack.dev.js\"",
     "build": "NODE_ENV=production webpack --config ./config/webpack.prod.js && gulp",
     "dev:server": "NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js",
-    "publish": "NODE_ENV=production npm run build && gulp"
+    "publish": "NODE_ENV=production npm run build && gulp",
+    "gulp": "gulp"
   },
   "keywords": [],
   "author": "",
@@ -33,6 +34,7 @@
     "del": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-through": "^0.4.0",
+    "gulp-watch": "^5.0.1",
     "http-server": "^14.1.0",
     "image-webpack-loader": "^8.1.0",
     "less-loader": "^10.2.0",

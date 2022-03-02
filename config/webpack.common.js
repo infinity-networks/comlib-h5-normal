@@ -36,8 +36,6 @@ const mode = process.env.NODE_ENV ? process.env.NODE_ENV : "production";
 
 const outDir = mode === "production" ? "build" : "dist";
 
-console.log("mode", mode, outDir);
-
 module.exports = {
   entry: entries,
   output: {
@@ -47,7 +45,7 @@ module.exports = {
       } else {
         const names = chunkData.chunk.name.split("_");
         chunkData.chunk.name = names[1];
-        return `../${outDir}/${names[0]}/[name]/index.js`;
+        return `../${outDir}/[name]/${names[0]}.js`;
       }
     },
     path: path.resolve(__dirname, `../${outDir}`),
