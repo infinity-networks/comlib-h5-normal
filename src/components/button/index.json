@@ -1,10 +1,11 @@
 {
   "title": "按钮",
   "namespace": "quark-lowcode.comlib-h5-normal",
-  "author": "",
+  "author": "1111",
   "authorName": "",
   "editor": "./editor.tsx",
   "runtime": "./runtime.tsx",
+  "props": {},
   "inputs": [
     {
       "id": "children",
