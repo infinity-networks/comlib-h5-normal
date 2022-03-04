@@ -5,7 +5,9 @@
   "authorName": "",
   "editor": "./editor.tsx",
   "runtime": "./runtime.tsx",
-  "props": {},
+  "props": {
+    "children": "按钮文本"
+  },
   "inputs": [
     {
       "id": "children",

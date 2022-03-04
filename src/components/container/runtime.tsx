@@ -1,8 +1,8 @@
 import React from "react";
 import "./index.less";
 
-const Container = function () {
-  return <div></div>;
+const Container = function ({ children }) {
+  return <div>{children}</div>;
 };
 
 export default Container;

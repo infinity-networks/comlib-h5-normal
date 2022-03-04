@@ -5,6 +5,9 @@
   "authorName": "",
   "editor": "./editor.tsx",
   "runtime": "./index.tsx",
+  "props": {
+    "children": "拖入组件"
+  },
   "inputs": [
     {
       "id": "children",

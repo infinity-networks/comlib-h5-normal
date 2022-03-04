@@ -137,7 +137,6 @@ module.exports = {
               const splitedPath = filePath.split("/").slice(-2);
               if (splitedPath[1] !== "manifest.json") {
                 if (keyMap[splitedPath[0]]) {
-                  console.log("key", keyMap, keyMap[splitedPath[0]]);
                   keyMap[splitedPath[0]] = {
                     ...keyMap[splitedPath[0]],
                     entry: `${splitedPath[1]}`,
